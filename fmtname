@@ -1,0 +1,75 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+# -*- decoding: utf-8 -*-
+"""Format the file name giving it a text style"""
+from os import path, listdir, rename
+from sys import exit as exit_status
+import argparse
+
+# Set colors
+rd = "\033[01;31m"
+gn = "\033[01;32m"
+bl = "\033[01;34m"
+end = "\033[00m"
+
+
+def formatted_name(fpath, style):
+    '''format the file name and apply the selected style'''
+    # Extract each part of the path and the file
+    file_path, file_name = path.split(fpath)
+    name, extension = path.splitext(file_name)
+
+    # Mapping strings to functions
+    func = {'lower': str.lower, 'upper': str.upper,
+            'title': str.title, 'capitalize': str.capitalize} 
+
+    # Apply the style
+    ftext = func[style](name)
+
+    # Changes to lowercase if the extension has another format
+    if not extension.islower():
+        extension = func['lower'](extension)
+
+    # Build the new path
+    return file_path + '/' + ftext + extension
+
+
+def process_files(directory, style):
+    '''process the directory files'''
+    for f in listdir(directory):
+        fpath = directory + '/' + f
+        
+        # Filter only files
+        if path.isfile(fpath):
+            fname = formatted_name(fpath, style)
+
+            # Rename the file
+            print(f'{bl}old{end}: {fpath} -> {gn}new{end}: {fname}')
+            rename(fpath, fname)
+
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(prog='fmtname',
+                                     description='Format the file name giving it a text style.')
+    parser.add_argument('-d', type=str, required=True, metavar='',
+                        help='Select a directory with files for format the name.')
+
+    parser.add_argument('-s', type=str, required=False, metavar='', default='title',
+                        help='Text style lower, upper,capitalize,title (default title)')
+
+    parser.add_argument('-v', action='version', version='%(prog)s 1.0.0',
+                        help='Show script version.')
+    
+    args = parser.parse_args()
+
+    # Check if the directory exists and that it is not empty
+    if not (path.isdir(args.d) and listdir(args.d)):
+        print(f'{rd}[!]{end} The directory does not exist or is empty')
+        exit_status(1)
+
+    # Check the type of style chosen
+    if not ['lower', 'upper', 'capitalize', 'title']:
+        print(f'{rd}[!]{end} Text style type is invalid')
+        exit_status(1)
+    
+    process_files(args.d, args.s)
