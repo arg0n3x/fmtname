@@ -23,27 +23,6 @@ def errorMessage(message, exit_code=1):
     sys.exit(exit_code)
 
 
-def formatted_name(fpath, style):
-    '''format the file name and apply the selected style'''
-    # Extract each part of the path and the file
-    file_path, file_name = path.split(fpath)
-    name, extension = path.splitext(file_name)
-
-    # Mapping strings to functions
-    func = {'lower': str.lower, 'upper': str.upper,
-            'title': str.title, 'capitalize': str.capitalize} 
-
-    # Apply the style
-    ftext = func[style](name)
-
-    # Changes to lowercase if the extension has another format
-    if not extension.islower():
-        extension = func['lower'](extension)
-
-    # Build the new path
-    return file_path + '/' + ftext + extension
-
-
 if __name__ == '__main__':
     text_formats = ('lower', 'upper', 'title', 'capitalize')
 
