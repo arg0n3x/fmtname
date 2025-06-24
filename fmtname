@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 # -*- decoding: utf-8 -*-
+import signal
 import sys
 import argparse
 from pathlib import Path
@@ -13,6 +14,11 @@ rd = "\033[01;31m"
 gn = "\033[01;32m"
 bl = "\033[01;34m"
 end = "\033[00m"
+
+
+def handler_sigint(signum, frame):
+    '''it runs when CTRL+C is pressed to interrupt the script process'''
+    errorMessage('Interrupted Process')
 
 
 def errorMessage(message, exit_code=1):
@@ -34,6 +40,8 @@ def rename_files(old_file, new_file, verbose):
 
 
 if __name__ == '__main__':
+    signal.signal(signal.SIGINT, handler_sigint)
+
     text_formats = ('lower', 'upper', 'title', 'capitalize')
 
     parser = argparse.ArgumentParser(description='Rename the files to uppercase, lowercase, titlecase or capitalize text.')
