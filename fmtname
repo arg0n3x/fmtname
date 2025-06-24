@@ -77,8 +77,4 @@ if __name__ == '__main__':
         print(f'{rd}[!]{end} The directory does not exist or is empty')
         exit_status(1)
 
-    if not ['lower', 'upper', 'capitalize', 'title']:
-        print(f'{rd}[!]{end} Text style type is invalid')
-        exit_status(1)
-    
     process_files(args.d, args.s)
