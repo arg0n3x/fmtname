@@ -6,6 +6,8 @@ from os import path, listdir, rename
 from sys import exit as exit_status
 import argparse
 
+__version__ = '2.0.0'
+
 # Set colors
 rd = "\033[01;31m"
 gn = "\033[01;32m"
@@ -49,17 +51,13 @@ def process_files(directory, style):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(prog='fmtname',
-                                     description='Format the file name giving it a text style.')
-    parser.add_argument('-d', type=str, required=True, metavar='',
-                        help='Select a directory with files for format the name.')
+    text_format = ('lower', 'upper', 'title', 'capitalize')
 
-    parser.add_argument('-s', type=str, required=False, metavar='', default='title',
-                        help='Text style lower, upper,capitalize,title (default title)')
-
-    parser.add_argument('-v', action='version', version='%(prog)s 1.0.0',
-                        help='Show script version.')
-    
+    parser = argparse.ArgumentParser(description='Rename the files to uppercase, lowercase, titlecase or capitalize text.')
+    parser.add_argument('-V', '--version', action='version', version=f'v{__version__}', help='script version')
+    parser.add_argument('-d', '--dpath', required=True, metavar='', help='specify the directory to process.')
+    parser.add_argument('-f', '--format', required=True, metavar='', help=f'text format {text_format}')
+    parser.add_argument('-v', '--verbose', action='store_true', help='show what is being done')
     args = parser.parse_args()
 
     # Check if the directory exists and that it is not empty
