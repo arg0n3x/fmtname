@@ -5,6 +5,7 @@
 from os import path, listdir, rename
 import sys
 import argparse
+from pathlib import Path
 
 __version__ = '2.0.0'
 
@@ -73,8 +74,8 @@ if __name__ == '__main__':
         errorMessage(f'{text_format} is an invalida text format, use -h for more')
 
     # Check if the directory exists and that it is not empty
-    if not (path.isdir(args.d) and listdir(args.d)):
-        print(f'{rd}[!]{end} The directory does not exist or is empty')
-        exit_status(1)
+    directory_path = Path(args.dpath)
+    if not path.isdir(directory_path):
+        errorMessage(f'"{dir_path}" is not a valid directory, An existing and non-empty directory is required')
 
     process_files(args.d, args.s)
