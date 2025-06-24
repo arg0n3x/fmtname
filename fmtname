@@ -44,20 +44,6 @@ def formatted_name(fpath, style):
     return file_path + '/' + ftext + extension
 
 
-def process_files(directory, style):
-    '''process the directory files'''
-    for f in listdir(directory):
-        fpath = directory + '/' + f
-        
-        # Filter only files
-        if path.isfile(fpath):
-            fname = formatted_name(fpath, style)
-
-            # Rename the file
-            print(f'{bl}old{end}: {fpath} -> {gn}new{end}: {fname}')
-            rename(fpath, fname)
-
-
 if __name__ == '__main__':
     text_formats = ('lower', 'upper', 'title', 'capitalize')
 
@@ -78,4 +64,3 @@ if __name__ == '__main__':
     if not path.isdir(directory_path):
         errorMessage(f'"{dir_path}" is not a valid directory, An existing and non-empty directory is required')
 
-    process_files(args.d, args.s)
