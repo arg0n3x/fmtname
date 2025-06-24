@@ -19,7 +19,7 @@ This tool formats file names within a directory using styles such as lower, uppe
 3. Run the script
 
 ```bash
- $ ./fmtname -d <directory path> -s lower
+ $ ./fmtname -d <directory path> -f lower
 ```
 
 4. Use the `--help` parameter for additional help
