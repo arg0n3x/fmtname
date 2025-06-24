@@ -66,3 +66,13 @@ if __name__ == '__main__':
 
     # Dictionary that has functions to format text strings
     format_strings = {'lower': str.lower, 'upper': str.upper, 'title': str.title, 'capitalize': str.capitalize}
+
+    # Iterate over the directory and check that they are files
+    for file in directory_path.iterdir():
+        if file.is_file():
+            # it gets the filename and extension, then formats only the name
+            fname, extension = file.stem, file.suffix
+            fstring = format_strings[text_format](fname)
+            
+            # Generate a new path with the formatted filename
+            npath = file.with_name(fstring + extension)
