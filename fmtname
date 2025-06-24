@@ -58,21 +58,25 @@ def process_files(directory, style):
 
 
 if __name__ == '__main__':
-    text_format = ('lower', 'upper', 'title', 'capitalize')
+    text_formats = ('lower', 'upper', 'title', 'capitalize')
 
     parser = argparse.ArgumentParser(description='Rename the files to uppercase, lowercase, titlecase or capitalize text.')
     parser.add_argument('-V', '--version', action='version', version=f'v{__version__}', help='script version')
     parser.add_argument('-d', '--dpath', required=True, metavar='', help='specify the directory to process.')
-    parser.add_argument('-f', '--format', required=True, metavar='', help=f'text format {text_format}')
+    parser.add_argument('-f', '--format', required=True, metavar='', help=f'text format {text_formats}')
     parser.add_argument('-v', '--verbose', action='store_true', help='show what is being done')
     args = parser.parse_args()
+
+    # Check the type of style chosen
+    text_format = args.format
+    if not text_format in text_formats:
+        errorMessage(f'{text_format} is an invalida text format, use -h for more')
 
     # Check if the directory exists and that it is not empty
     if not (path.isdir(args.d) and listdir(args.d)):
         print(f'{rd}[!]{end} The directory does not exist or is empty')
         exit_status(1)
 
-    # Check the type of style chosen
     if not ['lower', 'upper', 'capitalize', 'title']:
         print(f'{rd}[!]{end} Text style type is invalid')
         exit_status(1)
