@@ -3,7 +3,7 @@
 # -*- decoding: utf-8 -*-
 """Format the file name giving it a text style"""
 from os import path, listdir, rename
-from sys import exit as exit_status
+import sys
 import argparse
 
 __version__ = '2.0.0'
@@ -13,6 +13,13 @@ rd = "\033[01;31m"
 gn = "\033[01;32m"
 bl = "\033[01;34m"
 end = "\033[00m"
+
+
+def errorMessage(message, exit_code=1):
+    '''it receives an error message and an error code as arguments and terminates the script execution'''
+    message = f'\n{rd}[ERROR]{end} {message}\n\n'
+    sys.stderr.write(message)
+    sys.exit(exit_code)
 
 
 def formatted_name(fpath, style):
